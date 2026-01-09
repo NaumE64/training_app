@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   post '/users/finish_user_profile', to: 'users#finish_user_profile'
   get '/users/change_password', to: 'users#change_password'
   post '/users/update_password', to: 'users#update_password'
+  get '/users/profile', to: 'users#profile'
+  post '/users/update_profile', to: 'users#update_profile'
 end

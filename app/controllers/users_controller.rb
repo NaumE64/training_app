@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include BCrypt
 
   def dashboard
-    # redirect_to users_finish_profile_path if current_user.age.blank?
+    redirect_to users_finish_profile_path if current_user.age.blank?
 
     @user = current_user
   end
@@ -14,8 +14,7 @@ class UsersController < ApplicationController
     user = current_user
     user.update(
       age: params[:age],
-      gender: params[:gender],
-      description: params[:description]
+      gender: params[:gender]
     )
     redirect_to users_dashboard_path
   end

@@ -15,6 +15,12 @@
       <li class="nav-item mr-5">
         <%= link_to 'Dashboard', users_dashboard_path, class: 'nav-link' %>
       </li>
+      <li class="nav-item dropdown mr-3">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
+          <%= button_to 'Edit Profile', users_profile_path, method: :get, form_class: 'dropdown-item' %>
+          <%= button_to 'Change Password', users_change_password_path, method: :get, form_class: 'dropdown-item' %>
+        </div>
+      </li>
       <li class="nav-item">
         <%= link_to 'Log out', sign_out_path, class: 'btn btn-danger'%>
       </li>
