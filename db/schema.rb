@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_06_070536) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_11_071155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,22 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_06_070536) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "exercises", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "workout_type_id", null: false
+    t.text "description"
+    t.integer "default_sets", default: 3, null: false
+    t.integer "default_reps", default: 8, null: false
+    t.integer "order_position"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_exercises_on_active"
+    t.index ["name"], name: "index_exercises_on_name", unique: true
+    t.index ["workout_type_id", "order_position"], name: "index_exercises_on_workout_type_id_and_order_position"
+    t.index ["workout_type_id"], name: "index_exercises_on_workout_type_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -54,6 +70,57 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_06_070536) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "workout_exercises", force: :cascade do |t|
+    t.bigint "workout_id", null: false
+    t.bigint "exercise_id", null: false
+    t.integer "order", null: false
+    t.text "notes"
+    t.integer "target_sets"
+    t.integer "target_reps"
+    t.decimal "max_weight", precision: 5, scale: 2
+    t.decimal "avg_weight", precision: 5, scale: 2
+    t.integer "total_volume"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_workout_exercises_on_exercise_id"
+    t.index ["workout_id", "exercise_id"], name: "index_workout_exercises_on_workout_id_and_exercise_id", unique: true
+    t.index ["workout_id", "order"], name: "index_workout_exercises_on_workout_id_and_order", unique: true
+    t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
+  end
+
+  create_table "workout_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_workout_types_on_name", unique: true
+  end
+
+  create_table "workouts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "workout_type_id", null: false
+    t.date "date", null: false
+    t.decimal "weight_before", precision: 5, scale: 2
+    t.decimal "weight_after", precision: 5, scale: 2
+    t.text "notes"
+    t.integer "duration"
+    t.decimal "total_volume", precision: 10, scale: 2
+    t.integer "total_sets"
+    t.integer "total_reps"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_workouts_on_date"
+    t.index ["user_id", "date"], name: "index_workouts_on_user_id_and_date", unique: true
+    t.index ["user_id", "workout_type_id"], name: "index_workouts_on_user_id_and_workout_type_id"
+    t.index ["user_id"], name: "index_workouts_on_user_id"
+    t.index ["workout_type_id"], name: "index_workouts_on_workout_type_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "exercises", "workout_types"
+  add_foreign_key "workout_exercises", "exercises"
+  add_foreign_key "workout_exercises", "workouts"
+  add_foreign_key "workouts", "users"
+  add_foreign_key "workouts", "workout_types"
 end

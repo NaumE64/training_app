@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_one_attached :avatar
+  has_many :workouts
+  has_many :workout_exercises, through: :workouts
 
   validates :first_name, :last_name, presence: true
   validates :password, presence: true, confirmation: true
