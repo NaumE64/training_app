@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_11_071155) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_17_062946) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,19 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_11_071155) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "exercise_sets", force: :cascade do |t|
+    t.bigint "workout_exercise_id", null: false
+    t.integer "set_number", null: false
+    t.decimal "weight", precision: 6, scale: 2, default: "0.0"
+    t.integer "reps", default: 0
+    t.boolean "completed", default: true
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workout_exercise_id", "set_number"], name: "index_exercise_sets_on_workout_exercise_id_and_set_number", unique: true
+    t.index ["workout_exercise_id"], name: "index_exercise_sets_on_workout_exercise_id"
   end
 
   create_table "exercises", force: :cascade do |t|
@@ -118,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_11_071155) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "exercise_sets", "workout_exercises"
   add_foreign_key "exercises", "workout_types"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
