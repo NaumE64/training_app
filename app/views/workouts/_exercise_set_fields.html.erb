@@ -1,0 +1,16 @@
+<div class="row mb-2 align-items-center">
+  <div class="col-md-1">
+    <span class="badge bg-secondary">#<%= f.object.set_number %></span>
+    <%= f.hidden_field :set_number %>
+  </div>
+  
+  <div class="col-md-5">
+    <%= f.label :weight, "Вес (кг)", class: 'form-label small' %>
+    <%= f.number_field :weight, step: 0.5, class: 'form-control form-control-sm' %>
+  </div>
+  
+  <div class="col-md-5">
+    <%= f.label :reps, "Повторения", class: 'form-label small' %>
+    <%= f.number_field :reps, class: 'form-control form-control-sm' %>
+  </div>
+</div>

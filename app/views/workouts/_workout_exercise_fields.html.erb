@@ -1,0 +1,31 @@
+<% exercises.each_with_index do |exercise, ex_index| %>
+  <%= f.fields_for :workout_exercises, f.object.workout_exercises[ex_index] || f.object.workout_exercises.build do |we_f| %>
+    
+    <%= we_f.hidden_field :exercise_id, value: exercise.id %>
+    <%= we_f.hidden_field :order, value: ex_index + 1 %>
+    <%= we_f.hidden_field :target_sets, value: exercise.default_sets %>
+    <%= we_f.hidden_field :target_reps, value: exercise.default_reps %>
+    
+    <div class="card mb-3">
+      <div class="card-header">
+        <strong><%= exercise.name %></strong>
+        <span class="text-muted ms-2">
+          (<%= exercise.default_sets %> × <%= exercise.default_reps %>)
+        </span>
+      </div>
+      
+      <div class="card-body">
+        <!-- Используем существующий partial для подходов -->
+        <div class="sets-container">
+          <% exercise.default_sets.times do |set_num| %>
+            <%= we_f.fields_for :exercise_sets, we_f.object.exercise_sets[set_num] || we_f.object.exercise_sets.build do |set_f| %>
+              <%= set_f.hidden_field :set_number, value: set_num + 1 %>
+              <%= render 'exercise_set_fields', f: set_f %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+  <% end %>
+<% end %>

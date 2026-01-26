@@ -1,0 +1,13 @@
+<div class="workouts-page">
+  <div class="container mt-5">
+    <div class="workout-form-container">
+      <h1 class="mb-4 text-center">🏋️‍♂️ Новая тренировка</h1>
+      
+      <% if @workout.workout_type_id.present? %>
+        <%= render 'workout_form' %>
+      <% else %>
+        <%= render 'workout_type_selection' %>
+      <% end %>
+    </div>
+  </div>
+</div>

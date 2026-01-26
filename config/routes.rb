@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   post '/users/update_password', to: 'users#update_password'
   get '/users/profile', to: 'users#profile'
   post '/users/update_profile', to: 'users#update_profile'
+
+  resources :workouts, only: [:new, :create]
 end

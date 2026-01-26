@@ -1,0 +1,24 @@
+// app/assets/stylesheets/workouts.scss
+.workouts-page {
+  background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+.workout-form-container {
+  max-width: 500px;  // Фиксированная ширина формы
+  margin: 0 auto;    // Центрирование
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+// На мобильных адаптация
+@media (max-width: 576px) {
+  .workout-form-container {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+}
