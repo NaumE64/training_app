@@ -6,5 +6,5 @@ class ExerciseSet < ApplicationRecord
   validates :reps, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # Уникальность: не может быть двух подходов с одинаковым номером в одном упражнении
-  validates :set_number, uniqueness: { scope: :workout_exercise_id }
+  validates :set_number, uniqueness: { scope: :workout_exercise_id }, if: -> { workout_exercise_id.present? }
 end
