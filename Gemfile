@@ -54,6 +54,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'shoulda-matchers', '~> 5.3'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rubocop-rails', require: false
 end
 
 group :development do

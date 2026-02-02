@@ -1,10 +1,12 @@
 WorkoutType.find_or_create_by!(name: "Грудь", description: "Тренировка грудных мышц")
 WorkoutType.find_or_create_by!(name: "Спина", description: "Тренировка мышц спины")
 WorkoutType.find_or_create_by!(name: "Ноги", description: "Тренировка ног и ягодиц")
+WorkoutType.find_or_create_by!(name: "TEST", description: "Тренировка ног и ягодиц")
 
 chest = WorkoutType.find_by!(name: "Грудь")
 back = WorkoutType.find_by!(name: "Спина")
 legs = WorkoutType.find_by!(name: "Ноги")
+test = WorkoutType.find_by!(name: "TEST")
 
 # ГРУДЬ
 Exercise.find_or_create_by!(name: "Жим лежа") do |e|
@@ -159,7 +161,16 @@ Exercise.find_or_create_by!(name: "Adductor") do |e|
   e.order_position = 6
 end
 
+Exercise.find_or_create_by!(name: "test_exercise") do |e|
+  e.workout_type = test
+  e.default_sets = 3
+  e.default_reps = 15
+  e.description = "test exercise desc"
+  e.order_position = 6
+end
+
 puts "Создано упражнений: #{Exercise.count}"
 puts "Грудь: #{Exercise.where(workout_type: chest).count}"
 puts "Спина: #{Exercise.where(workout_type: back).count}"
 puts "Ноги: #{Exercise.where(workout_type: legs).count}"
+puts "TEST: #{Exercise.where(workout_type: test).count}"

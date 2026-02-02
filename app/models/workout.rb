@@ -11,7 +11,7 @@ class Workout < ApplicationRecord
   validates :weight_after, numericality: { greater_than: 0 }, allow_nil: true
   validates :duration, numericality: { greater_than: 0, only_integer: true }, allow_nil: true
 
-  validates :date, uniqueness: { scope: :user_id, message: "уже есть тренировка на эту дату" }
+  # validates :date, uniqueness: { scope: :user_id, message: "уже есть тренировка на эту дату" }
 
   accepts_nested_attributes_for :workout_exercises,
     allow_destroy: true,

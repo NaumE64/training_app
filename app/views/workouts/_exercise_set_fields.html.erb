@@ -1,7 +1,7 @@
 <div class="row mb-2 align-items-center">
   <div class="col-md-1">
-    <span class="badge bg-secondary">#<%= f.object.set_number %></span>
-    <%= f.hidden_field :set_number %>
+    <span class="badge bg-secondary"><%= f.index + 1 %></span>
+    <%= f.hidden_field :set_number, value: f.index + 1 %>
   </div>
   
   <div class="col-md-5">
