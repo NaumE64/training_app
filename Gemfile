@@ -56,6 +56,8 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 5.3'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rubocop-rails', require: false
+  gem 'bullet'
+  gem 'reek'
 end
 
 group :development do
