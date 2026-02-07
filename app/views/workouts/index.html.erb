@@ -48,22 +48,24 @@
                       <% end %>
                     </li>
                   <% end %>
-                  <% if workout.workout_exercises.count > 3 %>
-                    <li class="small text-muted">+ еще <%= workout.workout_exercises.count - 3 %></li>
+                  <% if workout.workout_exercises.size > 3 %>
+                    <li class="small text-muted">+ еще <%= workout.workout_exercises.size - 3 %></li>
                   <% end %>
                 </ul>
               </div>
 
               <!-- Статистика -->
-              <% if workout.exercise_sets.any? %>
-                <div class="small text-muted">
-                  <%= workout.exercise_sets.count %> подходов
-                  <% total_volume = workout.exercise_sets.sum { |s| s.weight * s.reps } %>
-                  <% if total_volume > 0 %>
-                    • Объем: <%= total_volume.round %> кг
-                  <% end %>
-                </div>
-              <% end %>
+              <% exercise_sets_count = workout.workout_exercises.sum { |we| we.exercise_sets.size } %>
+              <% total_volume = workout.workout_exercises.sum { |we| we.exercise_sets.sum { |s| s.weight * s.reps } } %>
+
+            <% if exercise_sets_count > 0 %>
+              <div class="small text-muted">
+                <%= exercise_sets_count %> подходов
+                <% if total_volume > 0 %>
+                  • Объем: <%= total_volume.round %> кг
+                <% end %>
+              </div>
+            <% end %>
             </div>
             
             <div class="card-footer bg-transparent">

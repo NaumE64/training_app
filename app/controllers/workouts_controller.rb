@@ -1,7 +1,7 @@
 class WorkoutsController < ApplicationController
   def index
     @workouts = current_user.workouts
-    .includes(:workout_type, workout_exercises: [:exercise, :exercise_sets])
+    .includes(:workout_type, :workout_exercises , workout_exercises: [:exercise, :exercise_sets])
     .order(date: :desc)
   end
 
