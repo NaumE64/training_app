@@ -1,0 +1,198 @@
+<%# app/views/workouts/show.html.erb %>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>
+          <%= @workout.workout_type.name %> 
+          <small class="text-muted"><%= @workout.date.strftime("%d.%m.%Y") %></small>
+        </h1>
+        <%= link_to "← Назад", workouts_path, class: "btn btn-outline-secondary" %>
+      </div>
+
+      <!-- Основная информация -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <% if @workout.weight_before || @workout.weight_after %>
+              <div class="col-md-4 mb-3">
+                <h6 class="text-muted">Вес</h6>
+                <% if @workout.weight_before && @workout.weight_after %>
+                  <div class="d-flex align-items-center">
+                    <span class="h5"><%= @workout.weight_before %> кг</span>
+                    <span class="mx-2">→</span>
+                    <span class="h5"><%= @workout.weight_after %> кг</span>
+                    <% diff = @workout.weight_after - @workout.weight_before %>
+                    <span class="badge <%= diff > 0 ? 'bg-danger' : 'bg-success' %> ms-2">
+                      <%= diff > 0 ? "+" : "" %><%= diff %> кг
+                    </span>
+                  </div>
+                <% elsif @workout.weight_before %>
+                  <div class="h5">До: <%= @workout.weight_before %> кг</div>
+                <% elsif @workout.weight_after %>
+                  <div class="h5">После: <%= @workout.weight_after %> кг</div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if @workout.duration %>
+              <div class="col-md-4 mb-3">
+                <h6 class="text-muted">Длительность</h6>
+                <div class="h5"><%= @workout.duration %> мин</div>
+              </div>
+            <% end %>
+
+            <div class="col-md-4 mb-3">
+              <h6 class="text-muted">Объем</h6>
+              <% total_volume = @workout.workout_exercises.sum { |we| we.exercise_sets.sum { |s| s.weight * s.reps } } %>
+              <div class="h5"><%= total_volume.round %> кг</div>
+            </div>
+          </div>
+
+          <% if @workout.notes.present? %>
+            <div class="mt-3">
+              <h6 class="text-muted">Заметки</h6>
+              <p class="mb-0"><%= @workout.notes %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Упражнения -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Упражнения</h5>
+        </div>
+        <div class="card-body p-0">
+          <% @workout.workout_exercises.order(:order).each do |we| %>
+            <div class="border-bottom p-4">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h5 class="mb-1"><%= we.exercise.name %></h5>
+                  <% if we.notes.present? %>
+                    <p class="text-muted small mb-0"><%= we.notes %></p>
+                  <% end %>
+                </div>
+                <span class="badge bg-light text-dark">
+                  <%= we.target_sets %> × <%= we.target_reps %>
+                </span>
+              </div>
+
+              <!-- Подходы -->
+              <div class="table-responsive">
+                <table class="table table-sm table-borderless">
+                  <thead>
+                    <tr class="text-muted">
+                      <th>Подход</th>
+                      <th>Вес</th>
+                      <th>Повторения</th>
+                      <th>Объем</th>
+                      <th>Примечания</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% we.exercise_sets.order(:set_number).each do |set| %>
+                      <tr>
+                        <td class="fw-bold">#<%= set.set_number %></td>
+                        <td>
+                          <% if set.weight > 0 %>
+                            <span class="badge bg-primary"><%= set.weight %> кг</span>
+                          <% else %>
+                            <span class="text-muted">вес тела</span>
+                          <% end %>
+                        </td>
+                        <td>
+                          <span class="badge bg-secondary"><%= set.reps %></span>
+                        </td>
+                        <td>
+                          <span class="text-muted"><%= set.weight * set.reps %> кг</span>
+                        </td>
+                        <td>
+                          <% if set.notes.present? %>
+                            <small class="text-muted"><%= set.notes %></small>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                  <tfoot>
+                    <% exercise_volume = we.exercise_sets.sum { |s| s.weight * s.reps } %>
+                    <% max_weight = we.exercise_sets.maximum(:weight) %>
+                    <tr class="border-top">
+                      <td class="fw-bold">Итого:</td>
+                      <td>Макс: <span class="badge bg-danger"><%= max_weight %> кг</span></td>
+                      <td><%= we.exercise_sets.sum(:reps) %> повторений</td>
+                      <td class="fw-bold"><%= exercise_volume.round %> кг</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Статистика справа -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h6 class="mb-0">📊 Статистика</h6>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2">
+              <span class="text-muted">Упражнений:</span>
+              <strong class="float-end"><%= @workout.workout_exercises.size %></strong>
+            </li>
+            <li class="mb-2">
+              <span class="text-muted">Подходов:</span>
+              <strong class="float-end"><%= @workout.workout_exercises.sum { |we| we.exercise_sets.size } %></strong>
+            </li>
+            <li class="mb-2">
+              <span class="text-muted">Повторений:</span>
+              <strong class="float-end"><%= @workout.workout_exercises.sum { |we| we.exercise_sets.sum(&:reps) } %></strong>
+            </li>
+            <li class="mb-2">
+              <span class="text-muted">Средний вес:</span>
+              <strong class="float-end">
+                <% weights = @workout.workout_exercises.flat_map(&:exercise_sets).filter_map(&:weight) %>
+                <% avg_weight = weights.sum.fdiv(weights.size) %>
+                <%= avg_weight&.round(1) || 0 %> кг
+              </strong>
+            </li>
+            <li>
+              <span class="text-muted">Общий объем:</span>
+              <strong class="float-end">
+                <% total_volume = @workout.workout_exercises.sum { |we| we.exercise_sets.sum { |s| s.weight * s.reps } } %>
+                <%= total_volume.round %> кг
+              </strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0">🎯 Лучшие результаты</h6>
+        </div>
+        <div class="card-body">
+          <% @workout.workout_exercises.each do |we| %>
+            <% best_set = we.exercise_sets.max_by(&:weight) %>
+            <% if best_set && best_set.weight > 0 %>
+              <div class="mb-2">
+                <div class="small text-muted"><%= we.exercise.name %></div>
+                <div>
+                  <span class="badge bg-success"><%= best_set.weight %> кг</span>
+                  <span class="badge bg-secondary ms-1">× <%= best_set.reps %></span>
+                  <small class="text-muted ms-1">(подход #<%= best_set.set_number %>)</small>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

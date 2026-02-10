@@ -28,4 +28,10 @@ class WorkoutsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def show
+    @workout = current_user.workouts
+    .includes(workout_exercises: [:exercise, :exercise_sets])
+    .find(params[:id])
+  end
 end
