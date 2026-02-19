@@ -21,5 +21,5 @@ Rails.application.routes.draw do
   get '/users/profile', to: 'users#profile'
   post '/users/update_profile', to: 'users#update_profile'
 
-  resources :workouts, only: [:new, :create, :index, :show]
+  resources :workouts, only: [:new, :create, :index, :show, :destroy]
 end

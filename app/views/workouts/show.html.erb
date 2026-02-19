@@ -7,6 +7,13 @@
           <%= @workout.workout_type.name %> 
           <small class="text-muted"><%= @workout.date.strftime("%d.%m.%Y") %></small>
         </h1>
+        <% if current_user.id == @workout.user_id %>
+          <%= button_to "Удалить тренировку", 
+            workout_path(id: @workout.id), 
+            method: :delete, 
+            data: { confirm: "Точно удалить эту тренировку?" },
+            class: "btn btn-danger" %>
+        <% end %>
         <%= link_to "← Назад", workouts_path, class: "btn btn-outline-secondary" %>
       </div>
 

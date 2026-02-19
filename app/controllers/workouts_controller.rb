@@ -34,4 +34,11 @@ class WorkoutsController < ApplicationController
     .includes(workout_exercises: [:exercise, :exercise_sets])
     .find(params[:id])
   end
+
+  def destroy
+    current_user.workouts.find(params[:id]).destroy!
+
+    flash[:success] = 'Workout was successfully destroyed'
+    redirect_to workouts_path
+  end
 end

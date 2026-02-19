@@ -1,7 +1,7 @@
 class Workout < ApplicationRecord
   belongs_to :user
   belongs_to :workout_type
-  has_many :workout_exercises, inverse_of: :workout, dependent: :destroy, counter_cache: true
+  has_many :workout_exercises, inverse_of: :workout, dependent: :destroy
   has_many :exercises, through: :workout_exercises
   has_many :exercise_sets, through: :workout_exercises
 

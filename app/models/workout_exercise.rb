@@ -1,6 +1,6 @@
 class WorkoutExercise < ApplicationRecord
   belongs_to :exercise
-  belongs_to :workout, inverse_of: :workout_exercises
+  belongs_to :workout, inverse_of: :workout_exercises, counter_cache: true
   has_many :exercise_sets, inverse_of: :workout_exercise, dependent: :destroy
 
   validates :workout_id, presence: true, unless: -> { workout.present? }
