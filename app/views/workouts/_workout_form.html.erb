@@ -12,6 +12,18 @@
     <%= render 'workout_exercise_fields', f: f, exercises: @exercises %>
   </div>
 
+  <div class="row mb-2 align-items-center">
+    <div class="col-md">
+      <%= f.label :weight_before, "Вес до (кг)", class: 'form-label small' %>
+      <%= f.number_field :weight_before, step: 0.1, class: 'form-control form-control-sm' %>
+    </div>
+
+    <div class="col-md">
+      <%= f.label :weight_after, "Вес после (кг)", class: 'form-label small' %>
+      <%= f.number_field :weight_after, step: 0.1, class: 'form-control form-control-sm' %>
+    </div>
+  </div>
+
   <!-- Кнопки -->
   <div class="mt-4">
     <%= f.submit "Сохранить", class: 'btn btn-primary' %>
