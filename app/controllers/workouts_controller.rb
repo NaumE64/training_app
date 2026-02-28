@@ -35,6 +35,31 @@ class WorkoutsController < ApplicationController
     .find(params[:id])
   end
 
+  def edit
+    @workout = current_user.workouts
+    .includes(workout_exercises: [:exercise, :exercise_sets])
+    .find(params[:id])
+    @exercises = @workout.exercises
+  end
+
+  def update
+    workout = current_user.workouts.find(params[:id])
+    service = Workouts::UpdateWorkoutService.new(
+      user: current_user,
+      params: params,
+      workout: workout
+    )
+
+    @workout = service.perform
+
+    if @workout.persisted? && @workout.errors.empty?
+      redirect_to users_dashboard_path, notice: 'Обновлено!'
+    else
+      @exercises = @workout.exercises if @workout.workout_type_id
+      render 'edit', status: :unprocessable_entity
+    end
+  end
+
   def destroy
     current_user.workouts.find(params[:id]).destroy!
 

@@ -13,6 +13,11 @@
             method: :delete, 
             data: { confirm: "Точно удалить эту тренировку?" },
             class: "btn btn-danger" %>
+
+          <%= button_to "Редактировать", 
+            edit_workout_path(id: @workout.id), 
+            method: :get,
+            class: "btn btn-success" %>
         <% end %>
         <%= link_to "← Назад", workouts_path, class: "btn btn-outline-secondary" %>
       </div>
