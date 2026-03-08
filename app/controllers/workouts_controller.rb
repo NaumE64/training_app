@@ -1,4 +1,6 @@
 class WorkoutsController < ApplicationController
+  before_action :require_login
+
   def index
     @workouts = current_user.workouts
     .includes(:workout_type, :workout_exercises , workout_exercises: [:exercise, :exercise_sets])

@@ -14,4 +14,10 @@ class ApplicationController < ActionController::Base
   def user_authorized?
     redirect_to new_session_path unless user_logged_in?
   end
+
+  def require_login
+    unless user_logged_in?
+      redirect_to root_path, alert: 'Please log in first'
+    end
+  end
 end
