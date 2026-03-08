@@ -7,7 +7,7 @@ class Workouts::UpdateWorkoutService
 
   def perform
     @workout.assign_attributes(workout_params)
-    @workout.save! ? @workout : @workout
+    @workout.save ? @workout : @workout
   end
 
   private

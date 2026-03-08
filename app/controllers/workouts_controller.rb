@@ -34,7 +34,9 @@ class WorkoutsController < ApplicationController
   def show
     @workout = current_user.workouts
     .includes(workout_exercises: [:exercise, :exercise_sets])
-    .find(params[:id])
+    .find_by(id: params[:id])
+
+    redirect_to workouts_path, alert: 'Workout not found' if @workout.nil?
   end
 
   def edit
