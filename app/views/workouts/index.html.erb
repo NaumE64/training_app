@@ -83,4 +83,6 @@
       <%= link_to "Создать первую тренировку", new_workout_path, class: "btn btn-primary btn-lg" %>
     </div>
   <% end %>
+
+  <%= paginate @workouts %>
 </div>

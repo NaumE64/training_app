@@ -58,6 +58,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'bullet'
   gem 'reek'
+  gem 'kaminari'
 end
 
 group :development do

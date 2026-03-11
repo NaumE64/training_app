@@ -5,6 +5,8 @@ class WorkoutsController < ApplicationController
     @workouts = current_user.workouts
     .includes(:workout_type, :workout_exercises , workout_exercises: [:exercise, :exercise_sets])
     .order(date: :desc)
+    .page(params[:page])
+    .per(15)
   end
 
   def new
