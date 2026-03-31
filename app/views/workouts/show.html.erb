@@ -203,6 +203,11 @@
               </div>
             <% end %>
           <% end %>
+          <%= link_to trainings_pdf_path(@workout, format: :pdf), 
+              class: 'btn btn-outline-danger',
+              target: '_blank' do %>
+            📄 Скачать PDF
+          <% end %>
         </div>
       </div>
     </div>

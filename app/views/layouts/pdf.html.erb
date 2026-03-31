@@ -1,0 +1,44 @@
+<%# app/views/layouts/pdf.html.erb %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Тренировка <%= @workout.date.strftime('%d.%m.%Y') %></title>
+  <meta charset="utf-8">
+  <%= stylesheet_link_tag "application", media: 'all' %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      font-size: 12px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .stats {
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+    }
+    @media print {
+      body { margin: 0; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

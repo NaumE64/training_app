@@ -1,0 +1,42 @@
+<h1><%= @workout.workout_type.name %> — <%= @workout.date.strftime('%d.%m.%Y') %></h1>
+
+<% @workout.workout_exercises.order(:order).each do |we| %>
+  <h3><%= we.exercise.name %></h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Подход</th>
+        <th>Вес (кг)</th>
+        <th>Повторения</th>
+        <th>Объем</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% we.exercise_sets.order(:set_number).each do |set| %>
+        <tr>
+          <td><%= set.set_number %></td>
+          <td><%= set.weight %></td>
+          <td><%= set.reps %></td>
+          <td><%= set.weight * set.reps %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<div class="stats">
+  <p><strong>Общий объем:</strong> 
+    <%= @workout.workout_exercises.sum { |we| we.exercise_sets.sum { |s| s.weight * s.reps } } %> кг
+  </p>
+  <% if @workout.weight_before || @workout.weight_after %>
+    <p><strong>Вес:</strong> 
+      <%= @workout.weight_before %> → <%= @workout.weight_after %> кг
+    </p>
+  <% end %>
+  <% if @workout.duration %>
+    <p><strong>Длительность:</strong> <%= @workout.duration %> мин</p>
+  <% end %>
+  <% if @workout.notes.present? %>
+    <p><strong>Заметки:</strong> <%= @workout.notes %></p>
+  <% end %>
+</div>

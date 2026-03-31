@@ -59,6 +59,9 @@ group :development, :test do
   gem 'bullet'
   gem 'reek'
   gem 'kaminari'
+  # gem 'grover'
+  gem 'wicked_pdf'
+  gem 'wkhtmltopdf-binary'
 end
 
 group :development do
