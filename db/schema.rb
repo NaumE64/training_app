@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_02_06_065633) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_03_051427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_02_06_065633) do
   create_table "exercise_sets", force: :cascade do |t|
     t.bigint "workout_exercise_id", null: false
     t.integer "set_number", null: false
-    t.decimal "weight", precision: 6, scale: 2, default: "0.0"
+    t.decimal "weight", precision: 6, scale: 2
     t.integer "reps", default: 0
     t.boolean "completed", default: true
     t.text "notes"

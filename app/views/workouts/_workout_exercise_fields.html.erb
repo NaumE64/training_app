@@ -18,7 +18,7 @@
         <!-- Используем существующий partial для подходов -->
         <div class="sets-container">
           <% exercise.default_sets.times do |set_num| %>
-            <%= we_f.fields_for :exercise_sets, we_f.object.exercise_sets[set_num] || we_f.object.exercise_sets.build do |set_f| %>
+            <%= we_f.fields_for :exercise_sets, we_f.object.exercise_sets[set_num] || we_f.object.exercise_sets.build(set_number: set_num + 1, reps: exercise.default_reps) do |set_f| %>
               <%= set_f.hidden_field :set_number, value: set_num + 1 %>
               <%= render 'exercise_set_fields', f: set_f %>
             <% end %>
