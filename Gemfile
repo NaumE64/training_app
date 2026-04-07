@@ -62,6 +62,8 @@ group :development, :test do
   # gem 'grover'
   gem 'wicked_pdf'
   gem 'wkhtmltopdf-binary'
+  gem 'chartkick'
+  gem 'groupdate'
 end
 
 group :development do
