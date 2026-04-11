@@ -1,0 +1,14 @@
+<div class="body">
+  <div class="h1">WEIGHT STATISTIC</div>
+    <%= line_chart @weight_data,
+      min: 80,
+      max: 90,
+      curve: false,
+      colors: ["#00b894"],
+      label: "Вес (кг)",
+      title: "Динамика веса",
+      xtitle: "Дата",
+      ytitle: "Вес (кг)",
+      library: { scales: { y: { min: 80, max: 90} } }
+    %>
+</div>

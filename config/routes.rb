@@ -26,4 +26,8 @@ Rails.application.routes.draw do
   namespace :trainings do
     resources :pdfs, only: [:show]
   end
+
+  namespace :statistics do
+    resource :weight, only: [:show]
+  end
 end
