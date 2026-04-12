@@ -4,4 +4,5 @@ import "controllers"
 import "chartkick"
 import "Chart.bundle"
 import "chartkick/chart.js"
+import "weight_chart"
 //= require bootstrap

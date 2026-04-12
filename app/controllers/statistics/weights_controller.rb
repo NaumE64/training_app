@@ -4,5 +4,10 @@ class Statistics::WeightsController < ApplicationController
       .where.not(weight_before: nil)
       .order(date: :asc)
       .pluck(:date, :weight_before)
+
+    @workout_ids = current_user.workouts
+      .where.not(weight_before: nil)
+      .order(date: :asc)
+      .pluck(:id)
   end
 end
