@@ -3,4 +3,32 @@
   <%= link_to "Динамика веса", 
             statistics_weight_path,
             class: "btn btn-success" %>
+
+  <table class="table table-success table-striped mt-3">
+    <thead>
+      <tr>
+        <th scope="col">Текущий вес</th>
+        <th scope="col">Целевой вес</th>
+        <th scope="col">Осталось сбросить</th>
+        <th scope="col">Необходимый дефицит (ккал)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @user.workouts.present? && @user.target_weight.present? %>
+        <% current_weight = @user.workouts.last.weight_before %>
+        <% target_weight = @user.target_weight %>
+        <% diff = current_weight - target_weight %>
+        <tr>
+          <td><%= current_weight %> кг</td>
+          <td><%= target_weight %> кг</td>
+          <td><%= diff.round(1) %> кг</td>
+          <td><%= (diff * 7700).to_i %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td colspan="4" class="text-center text-muted">Нет данных для расчёта</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </body>

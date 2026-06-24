@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_03_051427) do
+ActiveRecord::Schema[7.0].define(version: 2026_06_23_093824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,22 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_051427) do
     t.index ["workout_type_id"], name: "index_exercises_on_workout_type_id"
   end
 
+  create_table "food_entries", force: :cascade do |t|
+    t.string "meal_type", null: false
+    t.integer "calories", null: false
+    t.integer "proteins", null: false
+    t.integer "fats", null: false
+    t.integer "carbs", null: false
+    t.string "notes"
+    t.date "date", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "date"], name: "index_food_entries_on_user_id_and_date"
+    t.index ["user_id", "meal_type"], name: "index_food_entries_on_user_id_and_meal_type"
+    t.index ["user_id"], name: "index_food_entries_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -81,6 +97,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_051427) do
     t.string "password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "target_weight", precision: 5, scale: 2
+    t.integer "daily_calorie_goal"
+    t.integer "daily_calorie_target"
   end
 
   create_table "workout_exercises", force: :cascade do |t|
@@ -134,6 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_03_051427) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "exercise_sets", "workout_exercises"
   add_foreign_key "exercises", "workout_types"
+  add_foreign_key "food_entries", "users"
   add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
   add_foreign_key "workouts", "users"
