@@ -21,6 +21,12 @@
       <li class="nav-item mr-5">
         <%= link_to 'Log workout', new_workout_path, class: 'nav-link' %>
       </li>
+      <li class="nav-item mr-5">
+        <%= link_to 'My meals', food_entries_path, class: 'nav-link' %>
+      </li>
+      <li class="nav-item mr-5">
+        <%= link_to 'Log meal', new_food_entry_path, class: 'nav-link' %>
+      </li>
       <li class="nav-item dropdown mr-3">
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
           <%= button_to 'Edit Profile', users_profile_path, method: :get, form_class: 'dropdown-item' %>

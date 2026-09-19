@@ -1,0 +1,13 @@
+<div class="food-entries-page">
+  <div class="container mt-5">
+    <div class="food-entry-form-container">
+      <h1 class="mb-4 text-center">🏋️‍♂️ Новый приём пищи</h1>
+
+        <% if @food_entry.meal_type.present? %>
+          <%= render 'food_entry_form' %>
+        <% else %>
+          <%= render 'food_entry_type_selection' %>
+        <% end %>
+    </div>
+  </div>
+</div>

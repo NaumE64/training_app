@@ -1,7 +1,7 @@
 class FoodEntry < ApplicationRecord
   belongs_to :user
 
-  enum meal_type: %i[breakfast lunch dinner snack], presence: true
+  enum meal_type: %i[breakfast lunch dinner snack]
 
   validates :calories, numericality: { greater_than: 0 }, allow_nil: true
   validates :proteins, numericality: { greater_than: 0 }, allow_nil: true

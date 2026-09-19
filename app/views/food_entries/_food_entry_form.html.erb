@@ -1,0 +1,34 @@
+<%= form_with(model: @food_entry) do |f| %>
+  <%= f.hidden_field :meal_type %>
+
+  <div class="col-md-5">
+    <%= f.label :date, "Дата", class: 'form-label' %>
+    <%= f.date_field :date, class: 'form-control' %>
+  </div>
+
+  <div class="col-md-5">
+    <%= f.label :calories, "Калории", class: 'form-label small' %>
+    <%= f.number_field :calories, step: 0.5, class: 'form-control form-control-sm' %>
+  </div>
+  <div class="col-md-5">
+    <%= f.label :proteins, "Белки", class: 'form-label small' %>
+    <%= f.number_field :proteins, step: 0.5, class: 'form-control form-control-sm' %>
+  </div>
+  <div class="col-md-5">
+    <%= f.label :fats, "Жиры", class: 'form-label small' %>
+    <%= f.number_field :fats, step: 0.5, class: 'form-control form-control-sm' %>
+  </div>
+  <div class="col-md-5">
+    <%= f.label :carbs, "Углеводы", class: 'form-label small' %>
+    <%= f.number_field :carbs, step: 0.5, class: 'form-control form-control-sm' %>
+  </div>
+  <div class="col-md-5">
+    <%= f.label :notes, "Заметки", class: 'form-label small' %>
+    <%= f.text_field :notes, class: 'form-control form-control-sm' %>
+  </div>
+
+  <div class="mt-4">
+    <%= f.submit "Сохранить", class: 'btn btn-primary' %>
+    <%= link_to "Назад", new_food_entry_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

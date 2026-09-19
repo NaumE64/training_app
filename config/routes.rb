@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   post '/users/update_profile', to: 'users#update_profile'
 
   resources :workouts
+  resources :food_entries
 
   namespace :trainings do
     resources :pdfs, only: [:show]

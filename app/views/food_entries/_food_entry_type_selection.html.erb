@@ -1,0 +1,15 @@
+<%= form_with(url: new_food_entry_path, method: :get) do |f| %>
+  <div class="mb-3">
+    <label class="form-label">Тип тренировки</label>
+    <select name="meal_type" class="form-select">
+      <option value="">Выберите тип</option>
+      <% FoodEntry.meal_types.keys.each do |mt| %>
+        <option value="<%= mt %>"><%= mt.capitalize %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div class="mt-4 text-center">
+    <button type="submit" class="btn btn-primary px-5">Далее →</button>
+  </div>
+<% end %>
