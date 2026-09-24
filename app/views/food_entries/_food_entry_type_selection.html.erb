@@ -1,6 +1,6 @@
 <%= form_with(url: new_food_entry_path, method: :get) do |f| %>
   <div class="mb-3">
-    <label class="form-label">Тип тренировки</label>
+    <label class="form-label">Тип приёма пищи</label>
     <select name="meal_type" class="form-select">
       <option value="">Выберите тип</option>
       <% FoodEntry.meal_types.keys.each do |mt| %>

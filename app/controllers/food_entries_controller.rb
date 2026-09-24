@@ -1,6 +1,6 @@
 class FoodEntriesController < ApplicationController
   def index
-    @food_entries = current_user.food_entries
+    @food_entries_by_date = current_user.food_entries.order(date: :desc).group_by(&:date)
   end
 
   def new

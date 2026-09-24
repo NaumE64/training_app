@@ -1,1 +1,35 @@
-<h1>INDEX PAGE FOOD ENTRIES</h1>
+<h1>Питание</h1>
+<%= link_to "Добавить приём", new_food_entry_path, class: "btn btn-primary mb-3" %>
+
+<% if @food_entries_by_date.any? %>
+  <div class="row">
+    <% @food_entries_by_date.each do |date, entries| %>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 d-flex flex-column">
+          <div class="card-header">
+            <%= date.strftime("%d.%m.%Y") %>
+            — <%= entries.sum(&:calories) %> ккал
+          </div>
+          
+          <div class="flex-grow-1">
+            <% entries.each do |entry| %>
+              <div class="px-3 py-2 border-bottom">
+                <%= entry.meal_type.capitalize %> — 
+                <%= entry.notes %> — 
+                <%= entry.calories %> ккал
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="card-footer">
+            Б: <%= entries.sum(&:proteins) %> · 
+            Ж: <%= entries.sum(&:fats) %> · 
+            У: <%= entries.sum(&:carbs) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted">Пока нет записей.</p>
+<% end %>
