@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   include BCrypt
 
   def dashboard
+    today_food_entries = current_user.food_entries.where(date: Date.today)
+    @today_calories = today_food_entries.sum(&:calories)
+    @today_proteins = today_food_entries.sum(&:proteins)
+    @today_fats = today_food_entries.sum(&:fats)
+    @today_carbs = today_food_entries.sum(&:carbs)
     redirect_to users_finish_profile_path if current_user.age.blank?
 
     @user = current_user
@@ -47,8 +52,8 @@ class UsersController < ApplicationController
       new_password_confirmation: params[:new_password_confirmation]
     ).call
     redirect_to users_dashboard_path
-  rescue ServiceError => error
-    flash.now[:error] = error.message
+  rescue ServiceError => e
+    flash.now[:error] = e.message
     render 'change_password'
   end
 end

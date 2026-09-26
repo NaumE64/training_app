@@ -1,34 +1,71 @@
 <body class="user-dashboard">
   <div class="h1">USERS DASHBOARD</div>
-  <%= link_to "Динамика веса", 
-            statistics_weight_path,
-            class: "btn btn-success" %>
-
-  <table class="table table-success table-striped mt-3">
-    <thead>
-      <tr>
-        <th scope="col">Текущий вес</th>
-        <th scope="col">Целевой вес</th>
-        <th scope="col">Осталось сбросить</th>
-        <th scope="col">Необходимый дефицит (ккал)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @user.workouts.present? && @user.target_weight.present? %>
-        <% current_weight = @user.workouts.order(date: :desc).first&.weight_before %>
-        <% target_weight = @user.target_weight %>
-        <% diff = current_weight - target_weight %>
-        <tr>
-          <td><%= current_weight %> кг</td>
-          <td><%= target_weight %> кг</td>
-          <td><%= diff.round(1) %> кг</td>
-          <td><%= (diff * 7700).to_i %></td>
-        </tr>
-      <% else %>
-        <tr>
-          <td colspan="4" class="text-center text-muted">Нет данных для расчёта</td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <table class="table table-success table-striped mt-3">
+          <thead>
+            <tr>
+              <th scope="col">Текущий вес</th>
+              <th scope="col">Целевой вес</th>
+              <th scope="col">Осталось сбросить</th>
+              <th scope="col">Необходимый дефицит (ккал)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @user.workouts.present? && @user.target_weight.present? %>
+              <% current_weight = @user.workouts.order(date: :desc).first&.weight_before %>
+              <% target_weight = @user.target_weight %>
+              <% diff = current_weight - target_weight %>
+              <tr>
+                <td><%= current_weight %> кг</td>
+                <td><%= target_weight %> кг</td>
+                <td><%= diff.round(1) %> кг</td>
+                <td><%= (diff * 7700).to_i %></td>
+              </tr>
+            <% else %>
+              <tr>
+                <td colspan="4" class="text-center text-muted">Нет данных для расчёта</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= link_to "Динамика веса", 
+                statistics_weight_path,
+                class: "btn btn-success" %>
+      </div>
+      <div class="col-6">
+        <table class="table table-success table-striped mt-3">
+          <thead>
+            <tr>
+              <th scope="col">Съедено калорий за сегодня</th>
+              <th scope="col">Целевая норма</th>
+              <th scope="col">Сколько осталось до цели</th>
+              <th scope="col">Сумма БЖУ за сегодня</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @user.workouts.present? && @user.target_weight.present? %>
+              <% current_weight = @user.workouts.order(date: :desc).first&.weight_before %>
+              <% target_weight = @user.target_weight %>
+              <% diff = current_weight - target_weight %>
+              <tr>
+                <td><%= @today_calories %> ккал</td>
+                <td><%= target_weight %> кг</td>
+                <td><%= diff.round(1) %> кг</td>
+                <td>Б:<%= @today_proteins %> Ж:<%= @today_fats %> У:<%= @today_carbs %></td>
+              </tr>
+            <% else %>
+              <tr>
+                <td colspan="4" class="text-center text-muted">Нет данных для расчёта</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= link_to "Добавить приём", 
+                new_food_entry_path,
+                class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
 </body>
