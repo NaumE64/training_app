@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_09_22_150520) do
+ActiveRecord::Schema[7.0].define(version: 2026_09_26_045740) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_22_150520) do
     t.decimal "target_weight", precision: 5, scale: 2
     t.integer "daily_calorie_goal"
     t.integer "daily_calorie_target"
+    t.integer "height"
+    t.integer "activity_level", default: 0
   end
 
   create_table "workout_exercises", force: :cascade do |t|

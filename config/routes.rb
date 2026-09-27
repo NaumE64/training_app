@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "pages#home"
+  root 'pages#home'
   get 'pages/home'
 
   get '/sign_in', to: 'sessions#sign_in'
@@ -30,5 +30,6 @@ Rails.application.routes.draw do
 
   namespace :statistics do
     resource :weight, only: [:show]
+    resource :calorie_calculator, only: %i[create show]
   end
 end
