@@ -45,7 +45,7 @@
             <tr>
               <th scope="col">Съедено калорий за сегодня</th>
               <th scope="col">Целевая норма</th>
-              <th scope="col">Сколько осталось до цели</th>
+              <th scope="col">Осталось</th>
               <th scope="col">Сумма БЖУ за сегодня</th>
             </tr>
           </thead>
@@ -56,8 +56,8 @@
               <% diff = current_weight - target_weight %>
               <tr>
                 <td><%= @today_calories %> ккал</td>
-                <td><%= target_weight %> кг</td>
-                <td><%= diff.round(1) %> кг</td>
+                <td><%= @user.daily_calorie_target %> ккал</td>
+                <td><%= @user.daily_calorie_target - @today_calories %> ккал</td>
                 <td>Б:<%= @today_proteins %> Ж:<%= @today_fats %> У:<%= @today_carbs %></td>
               </tr>
             <% else %>
