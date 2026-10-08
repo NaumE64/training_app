@@ -2,6 +2,7 @@ WorkoutType.find_or_create_by!(name: "Грудь", description: "Трениро�
 WorkoutType.find_or_create_by!(name: "Спина", description: "Тренировка мышц спины")
 WorkoutType.find_or_create_by!(name: "Ноги", description: "Тренировка ног и ягодиц")
 WorkoutType.find_or_create_by!(name: "TEST", description: "Тренировка ног и ягодиц")
+WorkoutType.find_or_create_by!(name: "Full Body", description: "Тренировка мышц всего тела")
 
 chest = WorkoutType.find_by!(name: "Грудь")
 back = WorkoutType.find_by!(name: "Спина")

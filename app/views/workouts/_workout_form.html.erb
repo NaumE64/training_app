@@ -8,9 +8,11 @@
   </div>
 
   <!-- Упражнения (nested) -->
-  <div id="workout-exercises">
+  <% if @workout.workout_type&.name == "Full Body" %>
+    <%= render 'full_body_exercise_picker', f: f %>
+  <% else %>
     <%= render 'workout_exercise_fields', f: f, exercises: @exercises %>
-  </div>
+  <% end %>
 
   <div class="row mb-2 align-items-center">
     <div class="col-md">

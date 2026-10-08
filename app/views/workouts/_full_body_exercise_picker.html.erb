@@ -1,0 +1,146 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Список упражнений
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Выберите упражнения</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% Exercise.all.each do |exercise| %>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" 
+                      value="<%= exercise.id %>" 
+                      id="exercise_<%= exercise.id %>"
+                      data-default-sets="<%= exercise.default_sets %>"
+                      data-default-reps="<%= exercise.default_reps %>">
+              <label class="form-check-label" for="exercise_<%= exercise.id %>">
+                <%= exercise.name %>
+              </label>
+            </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="add-selected-exercises">
+          Добавить выбранные
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<template id="exercise-template">
+  <div class="card mb-3 exercise-card">
+    <div class="card-header">
+      <strong class="exercise-name"></strong>
+      <span class="text-muted ms-2 exercise-details"></span>
+      <button type="button" class="btn-close float-end remove-exercise"></button>
+    </div>
+
+    <div class="card-body">
+      <div class="sets-container">
+        <input type="hidden" name="workout[workout_exercises_attributes][__INDEX__][exercise_id]" value="">
+        <input type="hidden" name="workout[workout_exercises_attributes][__INDEX__][order]" value="">
+        <input type="hidden" name="workout[workout_exercises_attributes][__INDEX__][target_sets]" value="">
+        <input type="hidden" name="workout[workout_exercises_attributes][__INDEX__][target_reps]" value="">
+
+        <div class="row mb-2 align-items-center set-row">
+          <div class="col-md-1">
+            <span class="badge bg-secondary set-number-badge"></span>
+            <input type="hidden" name="workout[workout_exercises_attributes][__INDEX__][exercise_sets_attributes][__SET_INDEX__][set_number]" value="">
+          </div>
+
+          <div class="col-md-5">
+            <label class="form-label small">Вес (кг)</label>
+            <input type="number" step="0.5" class="form-control form-control-sm"
+                   name="workout[workout_exercises_attributes][__INDEX__][exercise_sets_attributes][__SET_INDEX__][weight]">
+          </div>
+
+          <div class="col-md-5">
+            <label class="form-label small">Повторения</label>
+            <input type="number" class="form-control form-control-sm"
+                   name="workout[workout_exercises_attributes][__INDEX__][exercise_sets_attributes][__SET_INDEX__][reps]">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<div id="selected-exercises">
+  <!-- Сюда будут добавляться выбранные упражнения -->
+</div>
+
+<script>
+  (function() {
+    const addButton = document.getElementById("add-selected-exercises");
+    if (!addButton) {
+      console.log("Кнопка не найдена");
+      return;
+    }
+
+    addButton.onclick = function () {
+      const checked = document.querySelectorAll("#staticBackdrop .form-check-input:checked");
+      const template = document.getElementById("exercise-template");
+      const container = document.getElementById("selected-exercises");
+      const modalElement = document.getElementById("staticBackdrop");
+
+      let exerciseIndex = document.querySelectorAll("#selected-exercises .exercise-card").length;
+
+      checked.forEach(function (checkbox) {
+        const exerciseId = checkbox.value;
+        const exerciseName = checkbox.nextElementSibling.textContent.trim();
+        const defaultSets = parseInt(checkbox.dataset.defaultSets) || 3;
+        const defaultReps = parseInt(checkbox.dataset.defaultReps) || 8;
+
+        const clone = template.content.cloneNode(true);
+
+        clone.querySelector(".exercise-name").textContent = exerciseName;
+        clone.querySelector(".exercise-details").textContent = `(${defaultSets} × ${defaultReps})`;
+
+        clone.querySelector('input[name*="[exercise_id]"]').value = exerciseId;
+        clone.querySelector('input[name*="[order]"]').value = exerciseIndex + 1;
+        clone.querySelector('input[name*="[target_sets]"]').value = defaultSets;
+        clone.querySelector('input[name*="[target_reps]"]').value = defaultReps;
+
+        clone.querySelectorAll("input").forEach(function (input) {
+          input.name = input.name.replace(/__INDEX__/g, exerciseIndex);
+        });
+
+        const setsContainer = clone.querySelector(".sets-container");
+        const setRowTemplate = setsContainer.querySelector(".set-row");
+
+        for (let i = 0; i < defaultSets; i++) {
+          const setClone = setRowTemplate.cloneNode(true);
+          setClone.querySelectorAll("input").forEach(function (input) {
+            input.name = input.name.replace(/__SET_INDEX__/g, i);
+          });
+          setClone.querySelector('input[name*="[set_number]"]').value = i + 1;
+          setClone.querySelector('input[name*="[reps]"]').value = defaultReps;
+          setClone.querySelector(".set-number-badge").textContent = i + 1;
+          setsContainer.appendChild(setClone);
+        }
+        setRowTemplate.remove();
+
+        clone.querySelector(".remove-exercise").onclick = function () {
+          this.closest(".exercise-card").remove();
+        };
+
+        container.appendChild(clone);
+        exerciseIndex++;
+      });
+
+      document.querySelectorAll("#staticBackdrop .form-check-input:checked").forEach(function (cb) {
+        cb.checked = false;
+      });
+
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) modal.hide();
+    };
+  })();
+</script>
