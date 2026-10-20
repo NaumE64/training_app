@@ -1,4 +1,6 @@
 class WorkoutExercise < ApplicationRecord
+  self.strict_loading_by_default = true
+
   belongs_to :exercise
   belongs_to :workout, inverse_of: :workout_exercises, counter_cache: true
   has_many :exercise_sets, inverse_of: :workout_exercise, dependent: :destroy

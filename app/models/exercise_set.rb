@@ -1,4 +1,6 @@
 class ExerciseSet < ApplicationRecord
+  self.strict_loading_by_default = true
+
   belongs_to :workout_exercise
 
   validates :set_number, presence: true, numericality: { only_integer: true, greater_than: 0 }

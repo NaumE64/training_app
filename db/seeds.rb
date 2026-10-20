@@ -56,6 +56,14 @@ Exercise.find_or_create_by!(name: "Pullover") do |e|
   e.order_position = 6
 end
 
+Exercise.find_or_create_by!(name: "Chest press") do |e|
+  e.workout_type = test
+  e.default_sets = 3
+  e.default_reps = 10
+  e.description = "Жим в тренажере"
+  e.order_position = 7
+end
+
 # СПИНА
 Exercise.find_or_create_by!(name: "Pull down") do |e|
   e.workout_type = back
@@ -113,6 +121,22 @@ Exercise.find_or_create_by!(name: "Бицепс штанга") do |e|
   e.order_position = 7
 end
 
+Exercise.find_or_create_by!(name: "Подтягивания") do |e|
+  e.workout_type = test
+  e.default_sets = 3
+  e.default_reps = 3
+  e.description = "Подтягивания на турнике"
+  e.order_position = 8
+end
+
+Exercise.find_or_create_by!(name: "Спина штанга") do |e|
+  e.workout_type = test
+  e.default_sets = 3
+  e.default_reps = 10
+  e.description = "Тяга штанги в наклоне"
+  e.order_position = 9
+end
+
 # НОГИ
 Exercise.find_or_create_by!(name: "Присед") do |e|
   e.workout_type = legs
@@ -160,6 +184,14 @@ Exercise.find_or_create_by!(name: "Adductor") do |e|
   e.default_reps = 15
   e.description = "Сведение ног в тренажере"
   e.order_position = 6
+end
+
+Exercise.find_or_create_by!(name: "Выпады") do |e|
+  e.workout_type = test
+  e.default_sets = 3
+  e.default_reps = 12
+  e.description = "Выпады на одну ногу"
+  e.order_position = 7
 end
 
 Exercise.find_or_create_by!(name: "test_exercise") do |e|

@@ -1,4 +1,6 @@
 class Workout < ApplicationRecord
+  self.strict_loading_by_default = true
+
   belongs_to :user
   belongs_to :workout_type
   has_many :workout_exercises, inverse_of: :workout, dependent: :destroy
@@ -18,4 +20,8 @@ class Workout < ApplicationRecord
     reject_if: ->(attrs) { attrs['exercise_id'].blank? }
 
   validates_associated :workout_exercises
+
+  def full_body?
+    workout_type_id == WorkoutType.find_by(name: "Full Body")&.id
+  end
 end

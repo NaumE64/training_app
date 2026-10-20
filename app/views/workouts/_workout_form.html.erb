@@ -8,7 +8,7 @@
   </div>
 
   <!-- Упражнения (nested) -->
-  <% if @workout.workout_type&.name == "Full Body" %>
+  <% if @workout.full_body? %>
     <%= render 'full_body_exercise_picker', f: f %>
   <% else %>
     <%= render 'workout_exercise_fields', f: f, exercises: @exercises %>

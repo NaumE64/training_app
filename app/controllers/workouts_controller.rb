@@ -14,7 +14,16 @@ class WorkoutsController < ApplicationController
       date: Date.today,
       workout_type_id: params[:workout_type_id]
     )
-    @exercises = Exercise.where(workout_type_id: @workout.workout_type_id)
+
+    if @workout.workout_type_id.present?
+      @exercises = Exercise.where(workout_type_id: @workout.workout_type_id)
+      @last_weights = Workouts::LastWeightsService.new(
+        workout_type_id: @workout.workout_type_id,
+        user: current_user
+      ).perform
+    else
+      @last_weights = {}
+    end
   end
 
   def create
